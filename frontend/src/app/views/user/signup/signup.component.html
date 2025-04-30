@@ -1,0 +1,76 @@
+<div class="signup" [formGroup]="signupForm">
+  <div class="container">
+    <div class="auth-form">
+      <div class="auth-title">Регистрация на сайте</div>
+
+      <div class="auth-inputs">
+        <div class="auth-input">
+          <input type="text" placeholder="Ваше имя" formControlName="name">
+
+          <div
+            *ngIf="signupForm.get('name')?.invalid && (signupForm.get('name')?.touched || signupForm.get('name')?.dirty)">
+            <div class="invalid-feedback" *ngIf="signupForm.get('name')?.errors?.['required']">
+              Необходимо ввести имя.
+            </div>
+            <div class="invalid-feedback" *ngIf="signupForm.get('name')?.errors?.['pattern']">
+              Данное поле может содержать только буквы русского алфавита. Допускается ввод: только Имя, Имя Фамилия,
+              полностью ФИО.
+            </div>
+          </div>
+
+        </div>
+        <div class="auth-input">
+          <input type="text" placeholder="Электронная почта" formControlName="email">
+
+          <div
+            *ngIf="signupForm.get('email')?.invalid && (signupForm.get('email')?.touched || signupForm.get('email')?.dirty)">
+            <div class="invalid-feedback" *ngIf="signupForm.get('email')?.errors?.['required']">
+              Необходимо ввести email.
+            </div>
+            <div class="invalid-feedback" *ngIf="signupForm.get('email')?.errors?.['email']">
+              Введите корректный email.
+            </div>
+          </div>
+
+        </div>
+        <div class="auth-input">
+          <input type="password" placeholder="Пароль" formControlName="password">
+
+          <div
+            *ngIf="signupForm.get('password')?.invalid && (signupForm.get('password')?.touched || signupForm.get('password')?.dirty)">
+            <div class="invalid-feedback" *ngIf="signupForm.get('password')?.errors?.['required']">
+              Необходимо ввести пароль.
+            </div>
+            <div class="invalid-feedback" *ngIf="signupForm.get('password')?.errors?.['pattern']">
+              Пароль должен содержать не менее 8 символов, как минимум 1 букву в верхнем регистре, как минимум 1 цифру.
+            </div>
+          </div>
+
+        </div>
+
+        <div class="auth-checkbox">
+          <input type="checkbox" id="rememberMe" formControlName="agree">
+          <label for="rememberMe">
+            Я принимаю <a routerLink="/doc" fragment="conditions">условия пользовательского соглашения</a>
+            и даю <a routerLink="/doc" fragment="agreement"> согласие на обработку персональных данных</a>.
+          </label>
+        </div>
+      </div>
+
+      <div class="auth-button">
+        <button class="button" [disabled]="signupForm.invalid" (click)="signUp()">Зарегистрироваться</button>
+      </div>
+
+      <div class="auth-link">
+        Уже есть аккаунт? <a routerLink="/login">Войдите</a>
+      </div>
+
+    </div>
+
+    <div class="auth-image">
+      <img src="/assets/images/signup.png" alt="Регистрация на сайте">
+    </div>
+
+  </div>
+</div>
+
