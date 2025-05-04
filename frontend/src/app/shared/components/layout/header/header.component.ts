@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../../core/auth/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {IsActiveMatchOptions, Router} from "@angular/router";
@@ -6,6 +6,7 @@ import {UserService} from "../../../services/user.service";
 import {UserInfoType} from "../../../../../types/user-info.type";
 import {DefaultResponseType} from "../../../../../types/default-response.type";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ActiveMenuService} from "../../../services/active-menu.service";
 
 
 @Component({
@@ -13,7 +14,7 @@ import {HttpErrorResponse} from "@angular/common/http";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, AfterViewChecked {
 
   userLogged: boolean;
   userName: string | null = null;
@@ -22,19 +23,25 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private userService: UserService
-  )
-  {
+    private userService: UserService,
+    private activeMenu: ActiveMenuService
+  ) {
     this.userLogged = this.authService.getIsLoggedIn();
     this.getUserName();
   }
 
   ngOnInit(): void {
+
+
     this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
       this.userLogged = isLoggedIn;
       this.getUserName();
     });
     this.getUserName();
+  }
+
+  ngAfterViewChecked() {
+    this.activeMenu.activeMenuItem();
   }
 
   logOut(): void {
@@ -87,4 +94,10 @@ export class HeaderComponent implements OnInit {
         })
       })
   }
+
+  activeMenuItem(item: HTMLElement) {
+
+  }
+
+  protected readonly onclick = onclick;
 }

@@ -5,6 +5,7 @@ import {environment} from "../../../environments/environment";
 import {ArticleType} from "../../../types/article.type";
 import {ArticlesFiltersType} from "../../../types/articles-filters.type";
 import {ArticlesAllType} from "../../../types/articles-all.type";
+import {DefaultResponseType} from "../../../types/default-response.type";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,10 @@ export class ArticlesService {
 
   getRelatedArticle(url: string): Observable<ArticleType[]> {
     return this.http.get<ArticleType[]>(environment.api + 'articles/related/' + url);
+  }
+
+  addComment(params: { text: string, article: string}): Observable<DefaultResponseType> {
+    return this.http.post<DefaultResponseType>(environment.api + 'comments', params);
   }
 
 }

@@ -7,18 +7,16 @@
   </div>
   <div class="modal-header">
     <h5 class="modal-title" *ngIf="stylePopup === PopupStyleType.consultation">Бесплатная консультация</h5>
-    <h5 class="modal-title" *ngIf="stylePopup === PopupStyleType.request">Заявка на услугу</h5>
+    <h5 class="modal-title" *ngIf="stylePopup === PopupStyleType.order">Заявка на услугу</h5>
     <h5 class="modal-title" *ngIf="stylePopup === PopupStyleType.success">Спасибо за вашу заявку!</h5>
   </div>
   <div class="modal-body" [formGroup]="popupForm">
-    <select *ngIf="stylePopup === PopupStyleType.request" formControlName="request">
-      <option>rhetrh</option>
-      <option>rhetrh</option>
-      <option>rhetrh</option>
+    <select *ngIf="stylePopup === PopupStyleType.order" formControlName="order">
+      <option *ngFor="let category of categories" value="{{ category.url}}">{{ category.name }}</option>
     </select>
 
     <input type="text" placeholder="Ваше имя"
-           *ngIf="stylePopup === PopupStyleType.request || stylePopup === PopupStyleType.consultation"
+           *ngIf="stylePopup === PopupStyleType.order || stylePopup === PopupStyleType.consultation"
            formControlName="name">
 
     <div class="invalid-feedback" *ngIf="popupForm.get('name')?.invalid
@@ -28,7 +26,7 @@
     </div>
 
     <input type="text" placeholder="Ваш номер телефона"
-           *ngIf="stylePopup === PopupStyleType.request || stylePopup === PopupStyleType.consultation"
+           *ngIf="stylePopup === PopupStyleType.order || stylePopup === PopupStyleType.consultation"
            formControlName="phone">
     <div *ngIf="popupForm.get('phone')?.invalid && (popupForm.get('phone')?.touched || popupForm.get('phone')?.dirty)">
       <div class="invalid-feedback" *ngIf="popupForm.get('phone')?.errors?.['required']">
@@ -42,10 +40,10 @@
     <p *ngIf="stylePopup === PopupStyleType.success">Мы свяжемся с вами при первой же возможности.</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="button button-popup" [disabled]="popupForm.invalid" *ngIf="stylePopup === PopupStyleType.consultation" (click)="callBack()">
+    <button type="button" class="button button-popup" [disabled]="popupForm.invalid" *ngIf="stylePopup === PopupStyleType.consultation" (click)="callBack(PopupStyleType.consultation)">
       Заказать звонок
     </button>
-    <button type="button" class="button button-popup" [disabled]="popupForm.invalid" *ngIf="stylePopup === PopupStyleType.request" (click)="callBack()">
+    <button type="button" class="button button-popup" [disabled]="popupForm.invalid" *ngIf="stylePopup === PopupStyleType.order" (click)="callBack(PopupStyleType.order)">
       Оставить заявку
     </button>
     <button type="button" class="button button-popup" *ngIf="stylePopup === PopupStyleType.success"

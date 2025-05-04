@@ -38,6 +38,10 @@
           a {
             color: $dark-blue;
             text-decoration: none;
+
+            &.active {
+              color: $light-blue;
+            }
           }
         }
       }

@@ -2,9 +2,13 @@ import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/co
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {PopupStyleType} from "../../../../types/popup-style.type";
 import {FormBuilder, Validators} from "@angular/forms";
-import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../../environments/environment";
 import {CategoriesType} from "../../../../types/categories.type";
+import {CategoriesService} from "../../services/categories.service";
+import {DefaultResponseType} from "../../../../types/default-response.type";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {RequestsService} from "../../services/requests.service";
+import {RequestType} from "../../../../types/request.type";
+import {CategoryURLType} from "../../../../types/categoryURL.type";
 
 @Component({
   selector: 'app-popup',
@@ -21,56 +25,106 @@ export class PopupComponent implements OnInit {
 
 
   popupForm = this.fb.group({
-    request: [''],
+    order: [''],
     name: ['', [Validators.required]],
     phone: ['', [Validators.required, Validators.pattern(/^\+[0-9]{11,12}$/)]],
   })
+
   constructor(private modalService: NgbModal,
               private fb: FormBuilder,
-              private http: HttpClient) {
+              private _snackBar: MatSnackBar,
+              private categoriesService: CategoriesService,
+              private requestsService: RequestsService) {
   }
 
   ngOnInit() {
-    this.getCategories();
-
+    this.categoriesService.getCategories()
+      .subscribe({
+        next: ((data: CategoriesType[]) => {
+          this.categories = data;
+        }),
+        error: ((error: DefaultResponseType) => {
+          if (error.message) {
+            this._snackBar.open(error.message)
+          } else {
+            this._snackBar.open("Ошибка получения данных");
+          }
+        })
+      })
   }
 
-  openPopup(param: PopupStyleType): void {
+  openPopup(param: PopupStyleType, categoryUrl: CategoryURLType): void {
     this.stylePopup = param;
+    this.popupForm.get('order')?.setValue(categoryUrl);
     const buttonElement = document.activeElement as HTMLElement;
     buttonElement.blur();
     this.modalService.open(this.popup);
   }
 
-  closePopup(){
-    this.popupForm.get('request')?.markAsUntouched();
+  closePopup() {
+    this.popupForm.get('order')?.markAsUntouched();
     this.popupForm.get('name')?.markAsUntouched();
     this.popupForm.get('phone')?.markAsUntouched();
     this.popupForm.reset();
     this.modalService.dismissAll();
   }
 
-  callBack() {
-    if (this.popupForm.valid && this.popupForm.get('name')?.value && this.popupForm.get('phone')?.value) {
-      this.popupForm.get('request')?.markAsUntouched();
-      this.popupForm.get('name')?.markAsUntouched();
-      this.popupForm.get('phone')?.markAsUntouched();
-      this.popupForm.reset();
-      this.stylePopup = PopupStyleType.success;
-    }
-  }
+  callBack(type: string) {
+    if (type === PopupStyleType.order) {
+      if (this.popupForm.valid && this.popupForm.get('name')?.value && this.popupForm.get('phone')?.value && this.popupForm.get('order')?.value) {
+        const params: RequestType = {
+          name: this.popupForm.get('name')?.value!,
+          phone: this.popupForm.get('phone')?.value!,
+          service: this.popupForm.get('order')?.value!,
+          type: type
+        }
 
-  getCategories(): void {
-    this.http.get<CategoriesType[] | []>(environment.api + 'categories')
-      .subscribe({
-        next: ((data: CategoriesType[] | []) => {
-          this.categories = data;
-          console.log(this.categories);
-      }),
-        error: ((error) => {
-          console.log(error)
-        })
-      })
+        this.requestsService.sendRequestOrder(params)
+          .subscribe({
+            next: ((data: DefaultResponseType) => {
+              if (!data.error) {
+                this.stylePopup = PopupStyleType.success;
+              }
+            }),
+            error: ((error: DefaultResponseType) => {
+                this._snackBar.open("Произошла ошибка при отправке формы, попробуйте еще раз.");
+            })
+          });
+      }
+    }
+
+    if (type === PopupStyleType.consultation) {
+      if (this.popupForm.valid && this.popupForm.get('name')?.value && this.popupForm.get('phone')?.value) {
+        const params: RequestType = {
+          name: this.popupForm.get('name')?.value!,
+          phone: this.popupForm.get('phone')?.value!,
+          type: type
+        }
+
+        this.requestsService.sendRequestConsultation(params)
+          .subscribe({
+            next: ((data: DefaultResponseType) => {
+              if (!data.error) {
+                this.stylePopup = PopupStyleType.success;
+              }
+            }),
+            error: ((error: DefaultResponseType) => {
+              if (error.message) {
+                this._snackBar.open(error.message)
+              } else {
+                this._snackBar.open("Произошла ошибка при отправке формы, попробуйте еще раз.");
+              }
+            })
+          });
+      }
+    }
+
+    // this.popupForm.get('order')?.markAsUntouched();
+    // this.popupForm.get('name')?.markAsUntouched();
+    // this.popupForm.get('phone')?.markAsUntouched();
+    // this.popupForm.reset();
+    // this.stylePopup = PopupStyleType.success;
+
   }
 
   protected readonly PopupStyleType = PopupStyleType;

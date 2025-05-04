@@ -39,7 +39,7 @@
               <h1 class="main-title">
                 Продвижение в Instagram для вашего бизнеса <span>-15%</span>!
               </h1>
-              <button class="button" (click)="openPopup(PopupStyleType.request)">Подробнее</button>
+              <button class="button" (click)="openPopup(PopupStyleType.order, CategoryURLType.target)">Подробнее</button>
             </div>
 
           </div>
@@ -84,7 +84,7 @@
               <div class="slider-item-text">
                 Весь декабрь у нас действует акция на работу копирайтера.
               </div>
-              <button class="button" (click)="openPopup(PopupStyleType.request)">Подробнее</button>
+              <button class="button" (click)="openPopup(PopupStyleType.order, CategoryURLType.kopiraiting)">Подробнее</button>
             </div>
 
           </div>
@@ -129,7 +129,7 @@
               <div class="slider-item-text">
                 Мы благодарим каждого, кто голосовал за нас!
               </div>
-              <button class="button" (click)="openPopup(PopupStyleType.request)">Подробнее</button>
+              <button class="button" (click)="openPopup(PopupStyleType.order, CategoryURLType.smm)">Подробнее</button>
             </div>
 
           </div>
@@ -151,7 +151,7 @@
           </div>
           <div class="offers-item-bottom">
             <span>От 7 500₽</span>
-            <button class="button" (click)="openPopup(PopupStyleType.request)">Подробнее</button>
+            <button class="button" (click)="openPopup(PopupStyleType.order, CategoryURLType.dizain)">Подробнее</button>
           </div>
         </div>
         <div class="offers-item">
@@ -162,7 +162,7 @@
           </div>
           <div class="offers-item-bottom">
             <span>От 3 500₽</span>
-            <button class="button" (click)="openPopup(PopupStyleType.request)">Подробнее</button>
+            <button class="button" (click)="openPopup(PopupStyleType.order, CategoryURLType.target)">Подробнее</button>
           </div>
         </div>
         <div class="offers-item">
@@ -173,7 +173,7 @@
           </div>
           <div class="offers-item-bottom">
             <span>От 1 000₽</span>
-            <button class="button" (click)="openPopup(PopupStyleType.request)">Подробнее</button>
+            <button class="button" (click)="openPopup(PopupStyleType.order, CategoryURLType.smm)">Подробнее</button>
           </div>
         </div>
         <div class="offers-item">
@@ -184,7 +184,7 @@
           </div>
           <div class="offers-item-bottom">
             <span>От 750₽</span>
-            <button class="button" (click)="openPopup(PopupStyleType.request)">Подробнее</button>
+            <button class="button" (click)="openPopup(PopupStyleType.order, CategoryURLType.kopiraiting)">Подробнее</button>
           </div>
         </div>
       </div>
@@ -271,7 +271,7 @@
       </a>
     </section>
 
-    <section class="reviews">
+    <section class="reviews" id="reviews">
       <div class="reviews-title">
         Отзывы о нашей работе
       </div>
@@ -348,7 +348,7 @@
       </div>
     </section>
 
-    <section class="navigation">
+    <section class="navigation" id="contacts">
       <div class="navigation-map">
         <iframe
           src="https://yandex.ru/map-widget/v1/?um=constructor%3A0389cdf329bcbee8f116dc91d2b7828e35a5a1bad8a2b50321eed9c57f802b63&amp;source=constructor"

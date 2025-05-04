@@ -1,5 +1,5 @@
 export enum PopupStyleType {
+  order = 'order',
   consultation = 'consultation',
-  request = 'request',
   success = 'success',
 }

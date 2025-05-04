@@ -54,6 +54,14 @@
         position: relative;
         width: 257px;
 
+        &.open .blog-filters-select-head {
+          background-color: #B9D5FD;
+        }
+
+        &.open .blog-filters-select-body {
+          display: block;
+        }
+
         .blog-filters-select-head {
           padding: 12px 23px;
           display: flex;
@@ -62,13 +70,10 @@
           background-color: #FFFFFF;
           border-radius: 5px 5px 0 0;
           cursor: pointer;
-
-          &.open {
-            background-color: #B9D5FD;
-          }
         }
 
         .blog-filters-select-body {
+          display: none;
           padding: 12px 23px;
           width: 257px;
           position: absolute;
@@ -76,12 +81,7 @@
           border: 2px solid #B9D5FD;
           background-color: #FFFFFF;
           box-sizing: border-box;
-          display: none;
           z-index: 3;
-
-          &.open {
-            display: block;
-          }
 
           .blog-filters-select-item {
             margin-bottom: 14px;
@@ -94,110 +94,107 @@
             font-weight: 400;
             cursor: pointer;
 
+            &.blog-filters-select-item .plus {
+              display: block;
+            }
+
+            &.blog-filters-select-item .minus {
+              display: none;
+            }
+
             &.active {
               color: $dark-blue;
             }
+
+            &.active .plus {
+              display: none;
+            }
+
+            &.active .minus {
+              display: block;
+            }
+
 
             &:last-child {
               margin-bottom: 0;
             }
 
+            p {
+              margin-bottom: 0;
+            }
+
             span {
               font-size: 24px;
-
             }
+
+
           }
         }
       }
     }
+  }
 
-    .blog-articles {
-      display: grid;
-      grid-template-rows: auto;
-      grid-template-columns: repeat(4, auto);
-      grid-row-gap: 40px;
-      margin-bottom: 60px;
+  .blog-articles {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(4, auto);
+    grid-row-gap: 40px;
+    margin-bottom: 60px;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+
+    .pagination-arrow {
+      margin-right: 40px;
+      margin-left: 40px;
+      cursor: pointer;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      svg {
+        &.disabled {
+          display: none;
+        }
+      }
+
     }
 
-    .pagination {
+    .pagination-pages {
       display: flex;
       align-items: center;
-      justify-self: center;
 
-      .pagination-arrow {
-        margin-right: 40px;
-        margin-left: 40px;
+      .pagination-page {
+        padding: 10px;
+        color: $dark-blue;
+        text-align: center;
+        font-family: "Montserrat Regular", sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        margin-right: 20px;
+        text-decoration: none;
         cursor: pointer;
-
-        &:first-child {
-          margin-left: 0;
-        }
 
         &:last-child {
           margin-right: 0;
         }
 
-        &.pagination-arrow-prev {
-          .prev-gray {
-            display: none;
-          }
-
-          .prev-blue {
-            transform: rotate(180deg);
-          }
-
-          &.disabled .prev-gray {
-            display: block;
-          }
-
-          &.disabled .prev-blue {
-            display: none;
-          }
-        }
-
-        &.pagination-arrow-next {
-          .next-gray {
-            display: none;
-          }
-          .next-blue {
-            display: block;
-          }
-          &.disabled .next-blue {
-            display: none;
-          }
-          &.disabled .next-gray {
-            display: block;
-            transform: rotate(180deg);
-          }
+        &.active {
+          color: #B9D5FD;
         }
       }
-
-      .pagination-pages {
-        display: flex;
-        align-items: center;
-
-        .pagination-page {
-          padding: 10px;
-          color: $dark-blue;
-          text-align: center;
-          font-family: "Montserrat Regular", sans-serif;
-          font-size: 20px;
-          font-style: normal;
-          font-weight: 400;
-          margin-right: 20px;
-          text-decoration: none;
-          cursor: pointer;
-
-          &:last-child {
-            margin-right: 0;
-          }
-
-          &.active {
-            color: #B9D5FD;
-          }
-        }
-      }
-
     }
+
   }
 }
+
+

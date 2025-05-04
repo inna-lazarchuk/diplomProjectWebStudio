@@ -6,6 +6,7 @@ import {ArticlesService} from "../../shared/services/articles.service";
 import {ArticleType} from "../../../types/article.type";
 import {DefaultResponseType} from "../../../types/default-response.type";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {CategoryURLType} from "../../../types/categoryURL.type";
 
 @Component({
   selector: 'app-main',
@@ -87,9 +88,10 @@ export class MainComponent implements OnInit {
       })
   }
 
-  openPopup(param: PopupStyleType) {
-    this.popupComponent.openPopup(param);
+  openPopup(param: PopupStyleType, categoryUrl: CategoryURLType) {
+    this.popupComponent.openPopup(param, categoryUrl);
   }
 
   protected readonly PopupStyleType = PopupStyleType;
+    protected readonly CategoryURLType = CategoryURLType;
 }
