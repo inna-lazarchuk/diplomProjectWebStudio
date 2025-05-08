@@ -28,10 +28,7 @@ export class CommentsService {
   }
 
   applyReactionToComment(idComment: string, reaction: CommentReactionType): Observable<DefaultResponseType> {
-    return this.http.post<DefaultResponseType>(environment.api + 'comments/' + idComment + '/apply-action', {
-      action: reaction
-    }, {headers: {}, withCredentials: true, })
-
+    return this.http.post<DefaultResponseType>(environment.api + 'comments/' + idComment + '/apply-action', {action: reaction})
   }
 
   getReactionsForComment(idComment: string):  Observable<CommentReactionResponseType> {

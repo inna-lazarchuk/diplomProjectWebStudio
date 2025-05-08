@@ -49,7 +49,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
               }
 
               if (data.hasOwnProperty('page')) {
-                activeParams.page = data['page'];
+                activeParams.page = +data['page'];
               }
 
               this.activeParams = activeParams;
